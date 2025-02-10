@@ -11,6 +11,7 @@ function LandingPage() {
       </h1>
       <p className="mx-auto">The best dashboard to manage customer support</p>
       <div className="flex gap-2 items-center ">
+        {/* why use asChild? it seems without it, the style is no change */}
         <Button asChild>
           <Link href="/login">Log in</Link>
         </Button>
