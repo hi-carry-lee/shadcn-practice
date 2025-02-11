@@ -16,6 +16,7 @@ function LoggedOutLayout({ children }: Props) {
       {/* top-1/2 means the top side of element is the half */}
       {/* -translate-y-1/2: put the element to top with half of its height, so the element is just in the half of the whole screen */}
       <LightDarkToggle className="fixed right-2 top-1/2 -translate-y-1/2" />
+      {/* why use fixed instead of absolute? absolute need a parent element, but fixed only need to place itself related to browser viewport */}
     </>
   );
 }
