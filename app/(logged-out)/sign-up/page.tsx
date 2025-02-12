@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { PersonStandingIcon } from "lucide-react";
+import { format } from "date-fns";
 import Link from "next/link";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
@@ -21,8 +22,16 @@ import {
   FormLabel,
   FormControl,
   FormMessage,
+  FormDescription,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { CalendarIcon } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -39,6 +48,23 @@ const formSchema = z
     accountType: z.enum(["personal", "company"]),
     companyName: z.string().optional(), // not required
     numberOfEmployees: z.coerce.number().min(0).optional(), // coerce value from string to number
+    // 👉 return true means validation failed
+    dob: z.date().refine((date) => {
+      const today = new Date();
+      const eighteenYearsAgo = new Date(
+        today.getFullYear() - 18,
+        today.getMonth(),
+        today.getDay()
+      );
+      return date <= eighteenYearsAgo;
+    }),
+    password: z
+      .string()
+      .min(8, "Password must contains at least 8 characters")
+      .refine((password) => {
+        return /^(?=.*[!@#$%^&*])(?=.*[A-Z]).*$/.test(password);
+      }, "Password must contains at least 1 speceial character and 1 uppercase letter"),
+    passwordConfirm: z.string(),
   })
   .superRefine((data, ctx) => {
     if (data.accountType === "company" && !data.companyName) {
@@ -71,6 +97,8 @@ function SignupPage() {
   };
 
   const accountType = form.watch("accountType");
+  const dobFromDate = new Date();
+  dobFromDate.setFullYear(dobFromDate.getFullYear() - 120);
 
   return (
     <>
@@ -164,7 +192,84 @@ function SignupPage() {
                   />
                 </>
               )}
-
+              <FormField
+                control={form.control}
+                name="dob"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col pt-2">
+                    <FormLabel>Date of birth</FormLabel>
+                    <Popover>
+                      {/* must has the asChild property */}
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant="outline"
+                            className="normal-case flex justify-between pr-1"
+                          >
+                            {field.value ? (
+                              format(field.value, "PPP")
+                            ) : (
+                              <span>Pick a date</span>
+                            )}
+                            <CalendarIcon className="ml-auto h-5 w-5 opacity-70" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          mode="single"
+                          defaultMonth={field.value}
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          fixedWeeks
+                          weekStartsOn={1}
+                          fromDate={dobFromDate}
+                          toDate={new Date()}
+                          captionLayout="dropdown-buttons"
+                        />
+                      </PopoverContent>
+                    </Popover>
+                    <FormDescription>
+                      Your date of birth is used to calculate your age.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="password"
+                        {...field}
+                        placeholder="********"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="passwordConfirm"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password confirm</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="password"
+                        {...field}
+                        placeholder="********"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <Button type="submit">Sign up</Button>
             </form>
           </Form>
