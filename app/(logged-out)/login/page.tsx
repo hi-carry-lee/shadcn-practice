@@ -24,6 +24,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useRouter } from "next/navigation";
+import { PasswordInput } from "@/components/ui/password-input";
 
 // 1. use fragment, since we need to add a icon on the top
 // 2. 'w-full max-w-sm': two similar width property, seems redundant? actually it's a responsive design
@@ -31,10 +33,13 @@ import { Input } from "@/components/ui/input";
 
 const formSchema = z.object({
   email: z.string().email(),
-  password: z.string(),
+  password: z.string().nonempty("You must input your password!"),
 });
 
 function LoginPage() {
+  // 👉 come from 'next/navigation'
+  const router = useRouter();
+
   // useForm is a generic func, we can pass a type into it
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -44,8 +49,11 @@ function LoginPage() {
     },
   });
 
-  const handleSubmit = () => {
-    console.log("handle login");
+  const handleSubmit = (data: z.infer<typeof formSchema>) => {
+    console.log("handle login, data: ", data);
+    if (data) {
+      router.push("/dashboard");
+    }
   };
 
   return (
@@ -88,7 +96,7 @@ function LoginPage() {
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input placeholder="******" {...field} />
+                      <PasswordInput placeholder="******" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

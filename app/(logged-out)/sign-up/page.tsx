@@ -40,6 +40,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { PasswordInput } from "@/components/ui/password-input";
+import { Checkbox } from "@/components/ui/checkbox";
+import { useRouter } from "next/navigation";
 
 //
 
@@ -47,9 +49,9 @@ const formSchema = z
   .object({
     email: z.string().email(),
     accountType: z.enum(["personal", "company"]),
-    companyName: z.string().optional(), // not required
+    companyName: z.string().optional(), // optional() means it's not required
     numberOfEmployees: z.coerce.number().min(0).optional(), // coerce value from string to number
-    // 👉 return true means validation failed
+    // 👉 return false means validation failed
     dob: z.date().refine((date) => {
       const today = new Date();
       const eighteenYearsAgo = new Date(
@@ -58,7 +60,7 @@ const formSchema = z
         today.getDay()
       );
       return date <= eighteenYearsAgo;
-    }),
+    }, "You must be at least 18 years old"),
     password: z
       .string()
       .min(8, "Password must contains at least 8 characters")
@@ -66,6 +68,13 @@ const formSchema = z
         return /^(?=.*[!@#$%^&*])(?=.*[A-Z]).*$/.test(password);
       }, "Password must contains at least 1 speceial character and 1 uppercase letter"),
     passwordConfirm: z.string(),
+    acceptTerms: z
+      .boolean({
+        required_error: "You must accept the terms and conditions",
+      })
+      .refine((acceptance) => {
+        return acceptance;
+      }, "You must accept the terms and conditions"),
   })
   .superRefine((data, ctx) => {
     if (data.accountType === "company" && !data.companyName) {
@@ -85,6 +94,9 @@ const formSchema = z
   });
 
 function SignupPage() {
+  // 👉 come from 'next/navigation'
+  const router = useRouter();
+
   // useForm is a generic func, we can pass a type into it
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -100,8 +112,11 @@ function SignupPage() {
     },
   });
 
-  const handleSubmit = () => {
-    console.log("handle login");
+  const handleSubmit = (data: z.infer<typeof formSchema>) => {
+    console.log("handle login, data is: ", data);
+    if (data) {
+      router.push("/dashboard");
+    }
   };
 
   const accountType = form.watch("accountType");
@@ -192,6 +207,8 @@ function SignupPage() {
                             type="number"
                             {...field}
                             placeholder="employees"
+                            // 👉 for get rid of warning in the console
+                            value={field.value ?? ""}
                           />
                         </FormControl>
                         <FormMessage />
@@ -266,6 +283,33 @@ function SignupPage() {
                     <FormControl>
                       <PasswordInput {...field} placeholder="********" />
                     </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="acceptTerms"
+                render={({ field }) => (
+                  <FormItem>
+                    <div className="flex gap-2">
+                      <FormControl>
+                        <Checkbox
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                      <FormLabel>I accept the terms and conditions</FormLabel>
+                    </div>
+                    <FormDescription>
+                      By sign up you need to accept our
+                      <Link
+                        href="/examples/terms"
+                        className="text-primary underline"
+                      >
+                        terms and conditions
+                      </Link>
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
