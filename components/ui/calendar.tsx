@@ -102,11 +102,13 @@ function Calendar({
               const yearsLength = latestYear - earliestYear + 1;
 
               selectValues = Array.from({ length: yearsLength }, (_, i) => {
+                // 👉 we want to display the year in descendent order
+                const year = latestYear - i;
                 return {
                   // why convert to string? since number could also be displayed
                   // since we use TypeScript here
-                  value: (earliestYear + i).toString(),
-                  label: (earliestYear + i).toString(),
+                  value: year.toString(),
+                  label: year.toString(),
                 };
               });
             }
@@ -121,16 +123,14 @@ function Calendar({
           return (
             <Select
               onValueChange={(newValue) => {
+                // why create a new date object?
+                const newDate = new Date(currentMonth);
                 if (dropdownProps.name === "months") {
-                  // why create a new date object?
-                  const newDate = new Date(currentMonth);
                   newDate.setMonth(parseInt(newValue));
-                  goToMonth(newDate);
                 } else if (dropdownProps.name === "years") {
-                  const newDate = new Date(currentMonth);
                   newDate.setFullYear(parseInt(newValue));
-                  goToMonth(newDate);
                 }
+                goToMonth(newDate);
               }}
               value={dropdownProps.value?.toString()}
             >
