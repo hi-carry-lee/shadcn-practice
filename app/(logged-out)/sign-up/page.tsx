@@ -39,6 +39,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { PasswordInput } from "@/components/ui/password-input";
 
 //
 
@@ -87,8 +88,15 @@ function SignupPage() {
   // useForm is a generic func, we can pass a type into it
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    // it's better to provide the initial value for every field, or the console will have the Warning like:  A component is changing an uncontrolled input to be controlled. This is likely caused by the value changing from undefined to a defined value, which should not happen. Decide between using a controlled or uncontrolled input element for the lifetime of the componentsed by the value changing from undefined to a defined value, which should not happen. Decide between using a controlled or uncontrolled input element for the lifetime of the component.
     defaultValues: {
       email: "",
+      accountType: "personal", // 设置默认值
+      companyName: "", // 即使是可选字段，也设置空字符串
+      numberOfEmployees: undefined, // 数字类型可以设置undefined或0
+      dob: undefined, // 或者设置new Date()
+      password: "",
+      passwordConfirm: "",
     },
   });
 
@@ -243,11 +251,7 @@ function SignupPage() {
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input
-                        type="password"
-                        {...field}
-                        placeholder="********"
-                      />
+                      <PasswordInput {...field} placeholder="********" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -260,11 +264,7 @@ function SignupPage() {
                   <FormItem>
                     <FormLabel>Password confirm</FormLabel>
                     <FormControl>
-                      <Input
-                        type="password"
-                        {...field}
-                        placeholder="********"
-                      />
+                      <PasswordInput {...field} placeholder="********" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
