@@ -291,25 +291,28 @@ function SignupPage() {
                 control={form.control}
                 name="acceptTerms"
                 render={({ field }) => (
-                  <FormItem>
-                    <div className="flex gap-2">
+                  <FormItem className=" rounded-md border p-2 shadow">
+                    <div className="flex flex-row items-start space-x-2 space-y-0">
                       <FormControl>
                         <Checkbox
                           checked={field.value}
                           onCheckedChange={field.onChange}
                         />
                       </FormControl>
-                      <FormLabel>I accept the terms and conditions</FormLabel>
+
+                      <div className="space-y-1 leading-none">
+                        <FormLabel>I accept the terms and conditions</FormLabel>
+                        <FormDescription>
+                          By sign up you need to accept our{" "}
+                          <Link
+                            href="/examples/terms"
+                            className="text-primary underline"
+                          >
+                            terms and conditions
+                          </Link>
+                        </FormDescription>
+                      </div>
                     </div>
-                    <FormDescription>
-                      By sign up you need to accept our
-                      <Link
-                        href="/examples/terms"
-                        className="text-primary underline"
-                      >
-                        terms and conditions
-                      </Link>
-                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
