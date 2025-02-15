@@ -1,5 +1,5 @@
 import EmployeesStats from "@/components/dashboard/employees/employees-stats";
-import { Card } from "@/components/ui/card";
+import TeamsStats from "@/components/dashboard/teams/teams-stats";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 function DashBoardPage() {
@@ -13,11 +13,7 @@ function DashBoardPage() {
         <EmployeesStats />
       </TabsContent>
       <TabsContent value="teams">
-        <div className="flex space-x-2">
-          <Card>4</Card>
-          <Card>5</Card>
-          <Card>6</Card>
-        </div>
+        <TeamsStats />
       </TabsContent>
     </Tabs>
   );
