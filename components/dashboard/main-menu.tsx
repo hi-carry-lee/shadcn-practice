@@ -31,7 +31,7 @@ function MainMenu({ className }: Props) {
       </ul>
       <footer className="flex gap-2 items-center">
         <Avatar>
-          <AvatarFallback className="bg-pink-300 dark:bg-pink-800">
+          <AvatarFallback className="bg-violet-400 dark:bg-violet-800">
             K
           </AvatarFallback>
         </Avatar>

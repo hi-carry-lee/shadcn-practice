@@ -76,7 +76,7 @@ function EmployeesStats() {
             )}
           </CardFooter>
         </Card>
-        <Card className="border border-pink-600 h-full">
+        <Card className="border border-violet-500 h-full">
           <CardHeader className="pb-2">
             <CardTitle className="text-base">Employee of the month</CardTitle>
           </CardHeader>
@@ -89,7 +89,7 @@ function EmployeesStats() {
           </CardContent>
           <CardFooter className="flex gap-2 items-center text-xs text-muted-foreground">
             <span className="text-gray-400 text-xs flex items-center gap-1">
-              <PartyPopperIcon className="text-pink-500" />
+              <PartyPopperIcon className="text-violet-600" />
               Congratulations, Colin!
             </span>
           </CardFooter>

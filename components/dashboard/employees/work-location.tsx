@@ -41,7 +41,7 @@ export default function WorkLocationTrends() {
             }
           }}
         />
-        <Bar dataKey="office" stackId={1} fill="#ec4899" />
+        <Bar dataKey="office" stackId={1} fill="#6d28d9" />
         <Bar dataKey="wfh" stackId={1} fill="#6b7280" radius={[4, 4, 0, 0]} />
       </BarChart>
     </ResponsiveContainer>
