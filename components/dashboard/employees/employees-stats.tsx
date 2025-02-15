@@ -103,7 +103,8 @@ function EmployeesStats() {
             </span>
           </CardTitle>
         </CardHeader>
-        <CardContent>
+        {/* 👉 CardContent has its own style, here we need to adjust a little */}
+        <CardContent className="pl-0">
           <WorkLocationTrends />
         </CardContent>
       </Card>
