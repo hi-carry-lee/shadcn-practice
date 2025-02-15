@@ -1,4 +1,4 @@
-import MainMenu from "./components/main-menu";
+import MainMenu from "../../components/dashboard/main-menu";
 
 function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
