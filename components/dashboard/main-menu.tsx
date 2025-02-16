@@ -23,7 +23,7 @@ function MainMenu({ className }: Props) {
       <header className="  border-b dark:border-b-black border-b-zinc-300 pb-4">
         <MenuTitle />
       </header>
-      <ul className="py-4">
+      <ul className="py-4 grow">
         <MenuItem href="/dashboard">My dashboard</MenuItem>
         <MenuItem href="/dashboard/teams">Teams</MenuItem>
         <MenuItem href="/dashboard/employees">Employees</MenuItem>

@@ -33,7 +33,7 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
       justify-between: let the title and toggle icon in the two end
       */}
       {!isDesktop && (
-        <div className="p-4 flex justify-between sticky top-0 left-0 bg-background border-b border-border ">
+        <div className="p-4 flex md:hidden justify-between sticky top-0 left-0 bg-background border-b border-border ">
           <MenuTitle />
           {/* 🌻note: before we click the hamburger icon, all the content is hidden */}
           <Drawer
