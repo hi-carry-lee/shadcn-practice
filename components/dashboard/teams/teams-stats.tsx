@@ -49,11 +49,14 @@ function TeamsStats() {
           </CardHeader>
 
           <CardContent className="flex flex-wrap gap-2">
+            {/* 👉 how to use Tooltip  */}
             {teamLeaders.map((teamLeader) => (
               <TooltipProvider
+                // 👉 use two name together to avoid the same first name or last name
                 key={`${teamLeader.firstName}${teamLeader.lastName}`}
               >
                 <Tooltip>
+                  {/* we want to only render the its child, not itself, so we use asChild */}
                   <TooltipTrigger asChild>
                     <Avatar>
                       {!!teamLeader.avatar && (

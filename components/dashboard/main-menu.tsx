@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 import { LightDarkToggle } from "@/components/ui/light-dark-toggle";
 
 interface Props {
-  className: string;
+  className?: string;
 }
 
 function MainMenu({ className }: Props) {
@@ -19,10 +19,11 @@ function MainMenu({ className }: Props) {
         className
       )}
     >
-      <header className="hidden md:block border-b dark:border-b-black border-b-zinc-300 pb-4">
+      {/* 'hidden md:block' means in the small screen, it will be hidden */}
+      <header className="  border-b dark:border-b-black border-b-zinc-300 pb-4">
         <MenuTitle />
       </header>
-      <ul className="py-4 grow">
+      <ul className="py-4">
         <MenuItem href="/dashboard">My dashboard</MenuItem>
         <MenuItem href="/dashboard/teams">Teams</MenuItem>
         <MenuItem href="/dashboard/employees">Employees</MenuItem>

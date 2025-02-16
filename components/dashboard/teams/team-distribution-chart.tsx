@@ -1,4 +1,11 @@
 "use client";
+// why Client Component?
+// 1️⃣ recharts need to access the DOM api;
+// 2️⃣ Tooltip need to handle client;
+
+// Pie chart
+// 1️⃣ data
+// 2️⃣ Cell: it's one piece of the whole pie, accord with one piece of the data;
 
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import { teamDistribution } from "@/public/team-distribution";
